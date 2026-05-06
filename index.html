@@ -964,7 +964,8 @@ const AutoDroneSimulator = () => {
 
 // --- 主應用程式組件 ---
 export default function App() {
-  const [activeTab, setActiveTab] = useState('auto');
+  // 將預設分頁改為 'home' (首頁)
+  const [activeTab, setActiveTab] = useState('home');
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900 font-sans selection:bg-blue-200">
@@ -1014,8 +1015,9 @@ export default function App() {
           </div>
         )}
 
+        {/* ================= 1. 簡介 ================= */}
         {activeTab === 'intro' && (
-          <div className="space-y-24 animate-in fade-in slide-in-from-bottom-4 duration-500">
+          <div className="space-y-12 animate-in fade-in slide-in-from-bottom-4 duration-500 pb-20">
             <section className="relative overflow-hidden rounded-[3rem] bg-white p-12 md:p-24 border border-slate-200 shadow-xl shadow-slate-200/50 text-center">
                 <div className="inline-block px-4 py-1.5 bg-blue-50 border border-blue-100 rounded-full text-blue-600 text-[10px] font-black tracking-widest uppercase mb-8">
                    專業無人機足球培訓系統 2.0
@@ -1032,9 +1034,84 @@ export default function App() {
                   </button>
                 </div>
             </section>
+
+            {/* 新增的詳細介紹區塊 */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div className="bg-white rounded-3xl p-8 border border-slate-200 shadow-sm">
+                    <div className="w-12 h-12 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center mb-6">
+                        <BookOpen size={24} />
+                    </div>
+                    <h3 className="text-2xl font-black text-slate-900 mb-4">什麼是無人機足球？</h3>
+                    <p className="text-slate-600 leading-relaxed text-justify">
+                        無人機足球（Drone Soccer）是一項結合了傳統體育與現代航空科技的新興科技運動（E-Sports）。起源於韓國，這項運動將無人機改造成外面包覆著球型保護罩的「飛行足球」。參賽選手需要透過無綫電遙控器操控這些無人機，在一個封閉的網狀賽場（Arena）內進行激烈的空中攻防，將己方的「攻擊球」飛越對手懸掛在半空中的環形球門來得分。
+                    </p>
+                </div>
+
+                <div className="bg-white rounded-3xl p-8 border border-slate-200 shadow-sm">
+                    <div className="w-12 h-12 bg-emerald-50 text-emerald-600 rounded-xl flex items-center justify-center mb-6">
+                        <Trophy size={24} />
+                    </div>
+                    <h3 className="text-2xl font-black text-slate-900 mb-4">競賽規則與賽制</h3>
+                    <p className="text-slate-600 leading-relaxed text-justify">
+                        標準賽事通常為 3v3 或 5v5。比賽分為 3 局，每局 3 分鐘，中間有短暫的維修與休息時間。最重要的一條規則是：<strong>只有配戴特定標誌（如底部的黃色絲帶）的「攻擊手 (Striker)」可以得分</strong>，其他無人機只能進行防守或掩護。當攻擊手成功穿過對方球門後，必須退回並飛越場地中線（中心點）後，才能發起下一次的有效攻擊。
+                    </p>
+                </div>
+
+                <div className="bg-white rounded-3xl p-8 border border-slate-200 shadow-sm md:col-span-2">
+                    <div className="w-12 h-12 bg-amber-50 text-amber-500 rounded-xl flex items-center justify-center mb-6">
+                        <Cpu size={24} />
+                    </div>
+                    <h3 className="text-2xl font-black text-slate-900 mb-4">球體與硬體構造設計</h3>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-4">
+                        <div>
+                            <h4 className="font-bold text-slate-800 mb-2">多邊形保護網 (Exoskeleton)</h4>
+                            <p className="text-sm text-slate-600 leading-relaxed">無人機外部包覆著由碳纖維或高彈性塑料製成的測地線格狀球殼。這不僅保護了內部的馬達與螺旋槳，也確保無人機在高速撞擊牆壁或其他球體時能迅速彈開而不會墜毀。</p>
+                        </div>
+                        <div>
+                            <h4 className="font-bold text-slate-800 mb-2">LED 視覺識別系統</h4>
+                            <p className="text-sm text-slate-600 leading-relaxed">比賽節奏極快，選手必須瞬間分辨敵我。因此每台無人機內部與尾部都會安裝高亮度的 LED 燈條，紅色代表紅隊，藍色代表藍隊，幫助選手與裁判在混戰中追蹤目標。</p>
+                        </div>
+                        <div>
+                            <h4 className="font-bold text-slate-800 mb-2">高敏捷飛控系統</h4>
+                            <p className="text-sm text-slate-600 leading-relaxed">競技級的無人機足球多採用 FPV (第一人稱視角) 穿越機等級的飛控板，具備極高的靈敏度與推重比。選手多使用「美國手 (Mode 2)」配置進行精密的三維空間操作。</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div className="bg-slate-900 rounded-3xl p-8 border border-slate-800 shadow-2xl md:col-span-2 text-white">
+                    <div className="w-12 h-12 bg-slate-800 text-blue-400 rounded-xl flex items-center justify-center mb-6">
+                        <ShieldCheck size={24} />
+                    </div>
+                    <h3 className="text-2xl font-black text-white mb-6">戰術與角色分配</h3>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                        <div className="bg-slate-800/50 p-6 rounded-2xl border border-slate-700 hover:bg-slate-800 transition-colors">
+                            <div className="flex items-center gap-3 mb-3">
+                                <span className="w-3 h-3 rounded-full bg-amber-500 shadow-[0_0_10px_rgba(245,158,11,0.5)]"></span>
+                                <h4 className="font-bold text-slate-100">攻擊手 (Striker)</h4>
+                            </div>
+                            <p className="text-sm text-slate-400 leading-relaxed">全隊唯一的得分手。需要極佳的飛行技巧與反應速度，負責閃避對方防守並精準穿透球門。進球後需迅速繞大圈退回中線準備下一次突擊。</p>
+                        </div>
+                        <div className="bg-slate-800/50 p-6 rounded-2xl border border-slate-700 hover:bg-slate-800 transition-colors">
+                            <div className="flex items-center gap-3 mb-3">
+                                <span className="w-3 h-3 border-2 border-slate-400 rounded-full"></span>
+                                <h4 className="font-bold text-slate-100">防守員 (Defender)</h4>
+                            </div>
+                            <p className="text-sm text-slate-400 leading-relaxed">如同足球的守門員。通常盤旋在己方球門前方進行區域防守，利用自身的球體體積與動力，將敵方的攻擊手撞飛或死死阻擋其進球路線。</p>
+                        </div>
+                        <div className="bg-slate-800/50 p-6 rounded-2xl border border-slate-700 hover:bg-slate-800 transition-colors">
+                            <div className="flex items-center gap-3 mb-3">
+                                <span className="w-3 h-3 border-2 border-slate-400 rounded-full"></span>
+                                <h4 className="font-bold text-slate-100">自由人 (Sweeper)</h4>
+                            </div>
+                            <p className="text-sm text-slate-400 leading-relaxed">在場地中央進行游擊。負責衝撞敵方的防守員來為己方攻擊手「開路」，或是半途攔截敵方的攻擊手，是全隊戰術靈活度最高的位置。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
           </div>
         )}
 
+        {/* ================= 2. 自動化賽事 ================= */}
         {activeTab === 'auto' && (
           <div className="space-y-8 animate-in fade-in slide-in-from-right-4 duration-500">
              <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 px-2">
