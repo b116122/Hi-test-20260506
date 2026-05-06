@@ -72,6 +72,7 @@
           useEffect(() => { windEnabledRef.current = windEnabled; }, [windEnabled]);
           useEffect(() => { aiAggroRef.current = aiAggro; }, [aiAggro]);
 
+          // 計時器與鍵盤事件 (集中管理)
           useEffect(() => {
             const timerId = setInterval(() => {
               if (isSimPausedRef.current) return;
@@ -99,6 +100,7 @@
             window.addEventListener('keydown', handleKeyDown);
             window.addEventListener('keyup', handleKeyUp);
 
+            // ★ 修正點：在這裡正確清理鍵盤事件
             return () => {
               clearInterval(timerId);
               window.removeEventListener('keydown', handleKeyDown);
@@ -112,6 +114,7 @@
             return `${m}:${s}`;
           };
 
+          // 3D 引擎與渲染邏輯
           useEffect(() => {
             if (!containerRef.current) return;
 
@@ -412,10 +415,10 @@
 
               if (selectionState.current.isSelecting) {
                 setBoxStyle({
-                  left: Math.min(startX, mouseX),
-                  top: Math.min(startY, mouseY),
-                  width: Math.abs(mouseX - startX),
-                  height: Math.abs(mouseY - startY)
+                  left: Math.min(selectionState.current.startX, mouseX),
+                  top: Math.min(selectionState.current.startY, mouseY),
+                  width: Math.abs(mouseX - selectionState.current.startX),
+                  height: Math.abs(mouseY - selectionState.current.startY)
                 });
               } else if (selectionState.current.isDragging) {
                 const ndcX = (mouseX / rect.width) * 2 - 1;
@@ -787,12 +790,15 @@
     animate();
 
     return () => {
-      window.removeEventListener('keydown', handleKeyDown);
-      window.removeEventListener('keyup', handleKeyUp);
+      // ★ 最重要的修正：只清理動畫與場景，不碰沒有定義的事件 ★
       cancelAnimationFrame(animationFrameId);
       resizeObserver.disconnect();
       if (containerRef.current) {
         containerRef.current.removeEventListener('pointerdown', onPointerDown);
+        
+        // 釋放 WebGL 記憶體，避免切換分頁時白畫面
+        renderer.dispose(); 
+        
         containerRef.current.removeChild(renderer.domElement);
       }
       window.removeEventListener('pointermove', onPointerMove);
@@ -954,7 +960,7 @@
 
 // --- 主應用程式 ---
 const App = () => {
-  const [activeTab, setActiveTab] = useState('home'); // ★ 預設首頁
+  const [activeTab, setActiveTab] = useState('home'); 
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900 font-sans selection:bg-blue-200">
@@ -1009,7 +1015,7 @@ const App = () => {
           </div>
         )}
 
-        {/* ================= 1. 簡介 (大幅擴充內容) ================= */}
+        {/* ================= 1. 簡介 ================= */}
         {activeTab === 'intro' && (
           <div className="space-y-12 animate-in fade-in slide-in-from-bottom-4 duration-500 pb-20">
             <section className="relative overflow-hidden rounded-[3rem] bg-white p-12 md:p-24 border border-slate-200 shadow-xl shadow-slate-200/50 text-center">
@@ -1101,7 +1107,6 @@ const App = () => {
                     </div>
                 </div>
 
-                {/* ★ 新增：進階與廣度知識區塊 ★ */}
                 <div className="md:col-span-2 pt-8">
                     <h3 className="text-3xl font-black text-slate-900 mb-8 text-center">進階知識與全球發展</h3>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
